@@ -1,0 +1,81 @@
+[gd_scene load_steps=11 format=3 uid="uid://bhypyhp7q77pn"]
+
+[ext_resource type="Texture2D" uid="uid://c5uv7us3ar5he" path="res://assets/Jellyfish-Sheet.png" id="1_l4x8r"]
+[ext_resource type="Script" path="res://scripts/jellyfish_controller.gd" id="2_83hlh"]
+[ext_resource type="PackedScene" uid="uid://bs40ci35r1vjt" path="res://scenes/enemy_config.tscn" id="2_t1rs6"]
+[ext_resource type="Script" path="res://scripts/enemy_hitbox.gd" id="4_nmbgt"]
+[ext_resource type="AnimationLibrary" uid="uid://c4j3o4reunfxs" path="res://resources/Shared_Enemy_Animations.res" id="5_q52j0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph16m"]
+atlas = ExtResource("1_l4x8r")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7mtb"]
+atlas = ExtResource("1_l4x8r")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_inn0c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ph16m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7mtb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpc14"]
+radius = 6.25
+height = 27.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxs0o"]
+size = Vector2(20, 38)
+
+[node name="Jellyfish" type="Node2D" groups=["Hurtable"]]
+script = ExtResource("2_83hlh")
+max_health = 10.0
+point_value = 50
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_inn0c")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.566637
+
+[node name="enemy_config" parent="." instance=ExtResource("2_t1rs6")]
+scale = Vector2(0.8, 0.8)
+damage = 12
+health = 1
+
+[node name="HeadHitbox" type="Area2D" parent="." groups=["Hurtable"]]
+position = Vector2(0, -19)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("4_nmbgt")
+damage = 10
+
+[node name="HeadHitboxShape" type="CollisionShape2D" parent="HeadHitbox" groups=["Hurtable"]]
+rotation = 1.5708
+scale = Vector2(0.8, 0.8)
+shape = SubResource("CapsuleShape2D_kpc14")
+
+[node name="TentacleHitbox" type="Area2D" parent="."]
+position = Vector2(0, 4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("4_nmbgt")
+damage = 10
+
+[node name="TentacleHitboxShape" type="CollisionShape2D" parent="TentacleHitbox"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_bxs0o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Shared_Enemy_Animations": ExtResource("5_q52j0")
+}

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ctgej5odeb7ox"]
+
+[node name="Control" type="CanvasLayer"]
+
+[node name="LifeLabel" type="Label" parent="."]
+offset_left = -55.0
+offset_top = -89.0
+offset_right = -15.0
+offset_bottom = -66.0
+text = "10"

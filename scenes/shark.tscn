@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://drch14rdv86p3"]
+
+[ext_resource type="Script" path="res://scripts/shark_controller.gd" id="1_qx7ol"]
+[ext_resource type="Texture2D" uid="uid://cl40ff61j0niy" path="res://assets/Shark-Sheet.png" id="2_ehah7"]
+[ext_resource type="PackedScene" uid="uid://bs40ci35r1vjt" path="res://scenes/enemy_config.tscn" id="3_mbf8w"]
+[ext_resource type="Script" path="res://scripts/enemy_hitbox.gd" id="4_hs2et"]
+[ext_resource type="AnimationLibrary" uid="uid://c4j3o4reunfxs" path="res://resources/Shared_Enemy_Animations.res" id="5_0cush"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ogdj"]
+atlas = ExtResource("2_ehah7")
+region = Rect2(0, 0, 100, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwqnq"]
+atlas = ExtResource("2_ehah7")
+region = Rect2(100, 0, 100, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y77sd"]
+atlas = ExtResource("2_ehah7")
+region = Rect2(200, 0, 100, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ly6al"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ogdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwqnq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y77sd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mhrxe"]
+radius = 14.2857
+height = 91.4286
+
+[node name="Shark" type="Node2D" groups=["Damages_Player", "Hurtable"]]
+scale = Vector2(0.7, 0.7)
+script = ExtResource("1_qx7ol")
+max_health = 10.0
+point_value = 50
+
+[node name="enemy_config" parent="." instance=ExtResource("3_mbf8w")]
+damage = 10
+health = 1
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ly6al")
+animation = &"idle"
+autoplay = "idle"
+flip_h = true
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(50, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-50, 0)
+
+[node name="Hitbox" type="Area2D" parent="." groups=["Hurtable"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("4_hs2et")
+damage = 10
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_mhrxe")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Shared_Enemy_Animations": ExtResource("5_0cush")
+}

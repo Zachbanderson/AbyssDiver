@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://do05pqgd032tx"]
+
+[ext_resource type="Script" path="res://scripts/stun_gun_projectile_controller.gd" id="1_dpgrp"]
+[ext_resource type="Texture2D" uid="uid://bwa4n6xaecerg" path="res://assets/StunGunProjectile-Sheet.png" id="1_w8d2a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vsyed"]
+atlas = ExtResource("1_w8d2a")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwi25"]
+atlas = ExtResource("1_w8d2a")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1b82"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vsyed")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwi25")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l8yq8"]
+radius = 8.0
+
+[node name="stun_gun_projectile" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_dpgrp")
+speed = 500
+maximum_distance = 75.0
+damage = 10.0
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a1b82")
+autoplay = "default"
+
+[node name="ProjectileBounds" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="ProjectileBoundsShape" type="CollisionShape2D" parent="ProjectileBounds"]
+shape = SubResource("CircleShape2D_l8yq8")
+
+[connection signal="area_entered" from="ProjectileBounds" to="." method="_on_projectile_bounds_area_entered"]
+[connection signal="body_entered" from="ProjectileBounds" to="." method="_on_projectile_bounds_body_entered"]

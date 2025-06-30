@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://qcfhe5cbgjq4"]
+
+[ext_resource type="Texture2D" uid="uid://dyku8flvxij5a" path="res://icon.svg" id="1_1fiqq"]
+[ext_resource type="Script" path="res://scripts/claw_controller.gd" id="1_uhbyv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8soff"]
+
+[node name="Claw" type="Node2D"]
+script = ExtResource("1_uhbyv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.3, 0)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_1fiqq")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_8soff")
