@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://don6v4hm662c4"]
+[gd_scene load_steps=16 format=4 uid="uid://don6v4hm662c4"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_4g0qt"]
 [ext_resource type="Texture2D" uid="uid://gs6bbn68vjmt" path="res://assets/world_tileset.png" id="1_efl4n"]
@@ -6,8 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://cyu46qnouol8y" path="res://scenes/urchin.tscn" id="3_cvltr"]
 [ext_resource type="PackedScene" uid="uid://cb1tbqey7nnd3" path="res://scenes/crystal.tscn" id="5_vmqvp"]
 [ext_resource type="PackedScene" uid="uid://drch14rdv86p3" path="res://scenes/shark.tscn" id="6_32yke"]
+[ext_resource type="PackedScene" uid="uid://dxgjc3ktdrehq" path="res://scenes/anglerfish.tscn" id="7_rp6vq"]
 [ext_resource type="PackedScene" uid="uid://bhypyhp7q77pn" path="res://scenes/jellyfish.tscn" id="7_xtbqj"]
 [ext_resource type="PackedScene" uid="uid://bxecncqxasb12" path="res://scenes/chest.tscn" id="8_hhgbx"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_cm3t8"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lk7kg"]
 texture = ExtResource("1_efl4n")
@@ -135,11 +142,13 @@ texture = ExtResource("1_efl4n")
 3:14/0 = 0
 4:14/0 = 0
 0:15/0 = 0
+0:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cm3t8")
 1:15/0 = 0
 2:15/0 = 0
 3:15/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_h4v5o"]
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_lk7kg")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rtuj4"]
@@ -398,6 +407,10 @@ position = Vector2(-54, 1866)
 
 [node name="Urchin_006" parent="Enemies/Urchins" instance=ExtResource("3_cvltr")]
 position = Vector2(71.2715, 1850.15)
+
+[node name="Anglerfish" parent="Enemies" instance=ExtResource("7_rp6vq")]
+position = Vector2(3, 49)
+velocity = null
 
 [node name="Collectables" type="Node2D" parent="."]
 

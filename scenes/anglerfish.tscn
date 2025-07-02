@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=3 uid="uid://dxgjc3ktdrehq"]
+
+[ext_resource type="Script" path="res://scripts/anglerfish_controller.gd" id="1_6h0fb"]
+[ext_resource type="Texture2D" uid="uid://cyknucxnk7kq3" path="res://assets/Anglerfish-Sheet.png" id="2_8k57u"]
+[ext_resource type="AnimationLibrary" uid="uid://c4j3o4reunfxs" path="res://resources/Shared_Enemy_Animations.res" id="3_53qk5"]
+[ext_resource type="Script" path="res://scripts/enemy_hitbox.gd" id="4_r5555"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dp4id"]
+atlas = ExtResource("2_8k57u")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q064r"]
+atlas = ExtResource("2_8k57u")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iui0v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dp4id")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q064r")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w1p87"]
+radius = 11.0
+height = 36.0
+
+[node name="Anglerfish" type="Node2D"]
+script = ExtResource("1_6h0fb")
+max_health = 20.0
+point_value = 100
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_iui0v")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.691388
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Shared_Enemy_Animations": ExtResource("3_53qk5")
+}
+
+[node name="EnemyHitbox" type="Area2D" parent="." groups=["Damages_Player", "Hurtable"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("4_r5555")
+damage = 15
+
+[node name="EnemyHitboxShape" type="CollisionShape2D" parent="EnemyHitbox"]
+position = Vector2(-5, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_w1p87")
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(20, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-30, 0)
+
+[node name="FOV" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FOV"]
+polygon = PackedVector2Array(0, 0, 80, -40, 100, 0, 80, 40)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="area_entered" from="FOV" to="." method="_on_fov_area_entered"]
+[connection signal="area_exited" from="FOV" to="." method="_on_fov_area_exited"]
