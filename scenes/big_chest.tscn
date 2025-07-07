@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://d160rlwnbymaj"]
+
+[ext_resource type="Script" path="res://scripts/big_chest.gd" id="1_m1g0o"]
+[ext_resource type="Texture2D" uid="uid://d4i1jx6k3a8ni" path="res://assets/BigChest.png" id="2_vpiub"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hex1v"]
+size = Vector2(32, 30)
+
+[node name="BigChest" type="Node2D"]
+script = ExtResource("1_m1g0o")
+point_value = 300
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_vpiub")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_hex1v")
