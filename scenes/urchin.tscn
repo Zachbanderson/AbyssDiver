@@ -1,46 +1,57 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyu46qnouol8y"]
+[gd_scene load_steps=9 format=3 uid="uid://cyu46qnouol8y"]
 
 [ext_resource type="Script" path="res://scripts/urchin_controller.gd" id="1_l3yk6"]
 [ext_resource type="Texture2D" uid="uid://c0yci1aqvna6h" path="res://assets/Urchin-Sheet.png" id="1_lqj8p"]
+[ext_resource type="Script" path="res://scripts/enemy_hitbox.gd" id="2_pb1in"]
+[ext_resource type="AnimationLibrary" uid="uid://c4j3o4reunfxs" path="res://resources/Shared_Enemy_Animations.res" id="4_ogtnd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hkgas"]
-size = Vector2(31, 31)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ea75p"]
+size = Vector2(29, 30)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oshfe"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5k36f"]
 atlas = ExtResource("1_lqj8p")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1p1cq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pol3o"]
 atlas = ExtResource("1_lqj8p")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_lml5t"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_jvmlr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oshfe")
+"texture": SubResource("AtlasTexture_5k36f")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1p1cq")
+"texture": SubResource("AtlasTexture_pol3o")
 }],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }]
 
-[node name="Urchin" type="Area2D"]
-scale = Vector2(0.75, 0.75)
+[node name="Urchin" type="Node2D"]
+script = ExtResource("1_l3yk6")
+max_health = 9999.0
+
+[node name="EnemyHitbox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource("1_l3yk6")
+script = ExtResource("2_pb1in")
+damage = 9999
 
-[node name="UrchinHitboxShape" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -0.5)
-shape = SubResource("RectangleShape2D_hkgas")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_ea75p")
 
-[node name="Animations" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_lml5t")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jvmlr")
 animation = &"idle"
 autoplay = "idle"
+frame = 1
+frame_progress = 0.0797962
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Shared_Enemy_Animations": ExtResource("4_ogtnd")
+}

@@ -1,15 +1,10 @@
-extends Area2D
+extends enemy_template
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
-
+	super()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
-
-func _on_area_entered(area):
-	print("Hit!")
