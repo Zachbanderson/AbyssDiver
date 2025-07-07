@@ -27,5 +27,6 @@ func _on_player_death():
 	move_direction = 0
 	
 func _on_big_chest_collected():
+	await get_tree().create_timer(2).timeout
 	move_direction = -1
 	movement_speed = up_speed
