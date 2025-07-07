@@ -12,4 +12,5 @@ func _process(delta):
 
 func _on_hitbox_area_entered(area):
 	super(area)
-	SignalBus.change_chest_count.emit(true)
+	if area.get_parent().is_in_group('Player'):
+		SignalBus.change_chest_count.emit(true)
