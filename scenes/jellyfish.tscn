@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhypyhp7q77pn"]
+[gd_scene load_steps=10 format=3 uid="uid://bhypyhp7q77pn"]
 
 [ext_resource type="Texture2D" uid="uid://c5uv7us3ar5he" path="res://assets/Jellyfish-Sheet.png" id="1_l4x8r"]
 [ext_resource type="Script" path="res://scripts/jellyfish_controller.gd" id="2_83hlh"]
-[ext_resource type="PackedScene" uid="uid://bs40ci35r1vjt" path="res://scenes/enemy_config.tscn" id="2_t1rs6"]
 [ext_resource type="Script" path="res://scripts/enemy_hitbox.gd" id="4_nmbgt"]
 [ext_resource type="AnimationLibrary" uid="uid://c4j3o4reunfxs" path="res://resources/Shared_Enemy_Animations.res" id="5_q52j0"]
 
@@ -46,11 +45,6 @@ sprite_frames = SubResource("SpriteFrames_inn0c")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.566637
-
-[node name="enemy_config" parent="." instance=ExtResource("2_t1rs6")]
-scale = Vector2(0.8, 0.8)
-damage = 12
-health = 1
 
 [node name="HeadHitbox" type="Area2D" parent="." groups=["Hurtable"]]
 position = Vector2(0, -19)

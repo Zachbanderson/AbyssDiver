@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://drch14rdv86p3"]
+[gd_scene load_steps=10 format=3 uid="uid://drch14rdv86p3"]
 
 [ext_resource type="Script" path="res://scripts/shark_controller.gd" id="1_qx7ol"]
 [ext_resource type="Texture2D" uid="uid://cl40ff61j0niy" path="res://assets/Shark-Sheet.png" id="2_ehah7"]
-[ext_resource type="PackedScene" uid="uid://bs40ci35r1vjt" path="res://scenes/enemy_config.tscn" id="3_mbf8w"]
 [ext_resource type="Script" path="res://scripts/enemy_hitbox.gd" id="4_hs2et"]
 [ext_resource type="AnimationLibrary" uid="uid://c4j3o4reunfxs" path="res://resources/Shared_Enemy_Animations.res" id="5_0cush"]
 
@@ -44,10 +43,6 @@ scale = Vector2(0.7, 0.7)
 script = ExtResource("1_qx7ol")
 max_health = 10.0
 point_value = 50
-
-[node name="enemy_config" parent="." instance=ExtResource("3_mbf8w")]
-damage = 10
-health = 1
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ly6al")
