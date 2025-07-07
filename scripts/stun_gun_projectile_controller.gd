@@ -11,6 +11,9 @@ extends Node2D
 # Other variables
 var initial_position: Vector2		# Stores the initial position of the projectile.
 
+# Built-in Functions.
+#####################
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	initial_position = position
@@ -20,16 +23,23 @@ func _physics_process(delta):
 	position += direction.normalized() * delta * speed
 
 	if global_position.distance_to(initial_position) >= maximum_distance:
-		queue_free()
+		run_behavior_on_death()
 
-
+# Signal Connection Functions.
+##############################
 func _on_projectile_bounds_area_entered(area):
-	queue_free()
+	run_behavior_on_death()
 	if area.is_in_group('Hurtable'):
 		area.get_parent().take_damage(damage)
 
 
 func _on_projectile_bounds_body_entered(body):
-	queue_free()
+	run_behavior_on_death()
 	if body.get_parent().is_in_group('Hurtable'):
 		body.get_parent().take_damage(damage)
+
+# Programmer-Defined Functions.
+###############################
+func run_behavior_on_death():
+	SignalBus.enable_player_shooting.emit()
+	queue_free()
