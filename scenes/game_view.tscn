@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://bawfpqxv7r2di"]
 
-[ext_resource type="PackedScene" uid="uid://don6v4hm662c4" path="res://scenes/test_level_2.tscn" id="1_4a2gu"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_87wkf"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="2_85163"]
+[ext_resource type="PackedScene" uid="uid://ddkowviw8nkjc" path="res://scenes/level_1.tscn" id="2_ymuoy"]
 [ext_resource type="Texture2D" uid="uid://dnxjk7dbjttar" path="res://assets/Healthbar.png" id="4_mju7k"]
 [ext_resource type="FontFile" uid="uid://13qpheddq3si" path="res://assets/Minecraft.ttf" id="4_pyveg"]
 [ext_resource type="Texture2D" uid="uid://bv54omya1brle" path="res://assets/HealthBarValue.png" id="5_aonnu"]
@@ -24,7 +24,7 @@ size = Vector2(224, 17)
 [node name="GameView" type="Node2D"]
 script = ExtResource("1_87wkf")
 
-[node name="TestLevel2" parent="." instance=ExtResource("1_4a2gu")]
+[node name="Level1" parent="." instance=ExtResource("2_ymuoy")]
 
 [node name="MainCamera" type="Camera2D" parent="."]
 position = Vector2(0, -22)

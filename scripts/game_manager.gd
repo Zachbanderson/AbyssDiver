@@ -6,6 +6,7 @@ extends Node2D
 @onready var filled_smallchest_texture: CompressedTexture2D = preload("res://assets/SmallChestHolderUIFilled.png")
 @onready var empty_bigchest_texture: CompressedTexture2D = preload("res://assets/BigChestHolderUIEmpty.png")
 @onready var filled_bigchest_texture: CompressedTexture2D = preload("res://assets/BigChestHolderUIFilled.png")
+@onready var end_screen: PackedScene = preload("res://scenes/end_screen.tscn")
 @onready var rightHUD_access = $MainCamera/RightHUD
 @onready var leftHUD_access = $MainCamera/LeftHUD
 @onready var score_display: Label = rightHUD_access.get_node_or_null("ScoreDisplay")
@@ -21,6 +22,8 @@ func _ready():
 	SignalBus.change_player_health.connect(_on_player_health_changed)
 	SignalBus.change_chest_count.connect(_on_chest_count_changed)
 	SignalBus.big_chest_collected.connect(_on_big_chest_collected)
+	SignalBus.update_scene.connect(_on_scene_updated)
+	SignalBus.player_death.connect(_on_player_death)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -35,6 +38,8 @@ func _on_level_end_area_entered(area):
 		SignalBus.end_game.emit()
 		SignalBus.stop_object.emit()
 		$MainCamera/Top/TopShape.set_deferred('disabled', true)
+		await get_tree().create_timer(5).timeout
+		self._on_scene_updated(Globals.CurrentSceneEnum.ENDING_SCREEN)
 
 func _on_big_chest_collected():
 	leftHUD_access.get_node_or_null("CenterContainer").get_node_or_null("BigChestHolder").texture = filled_bigchest_texture
@@ -49,9 +54,18 @@ func _on_chest_count_changed(increment: bool):
 		index = clamp(index - 1, 0, chest_list.size())
 		chest_list[index].texture = empty_smallchest_texture
 
+func _on_scene_updated(destination: Globals.CurrentSceneEnum):
+	match destination:
+		Globals.CurrentSceneEnum.ENDING_SCREEN:
+			get_tree().change_scene_to_packed(end_screen)
+
 func _on_score_changed(delta: int):
 	total_score += delta
 	score_display.text = str(total_score)
 	
+func _on_player_death():
+	await get_tree().create_timer(5).timeout
+	self._on_scene_updated(Globals.CurrentSceneEnum.ENDING_SCREEN)
+
 func _on_player_health_changed(delta: float):
 	health_bar.value += delta
